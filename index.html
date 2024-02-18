@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+            background: url(library.jpg) no-repeat;
+            background-size: cover;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgb(0, 0, 0);
+            background: linear-gradient(#a939ff,rgba(255, 60, 0, 0.94));
+        }
+
+        h1 {
+            text-align: center;
+            color: #000000;
+        }
+
+        .form, .search {
+            margin-bottom: 20px;
+            background: #ffffff3d;
+            font-size: medium;
+        }
+
+        input[type="text"], input[type="number"], button {
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #000000;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #000000;
+            color: white;
+            border: none;
+            cursor: pointer;
+            
+        }
+
+        button:hover {
+            background-color: #e5e5e5;
+            color: black;
+            font-weight: 600;
+            box-shadow: 2px 2px 16px 3px rgba(233, 233, 233, 0.878);
+
+        }
+
+        #bookList {
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .book {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #eee;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Library Management System</h1>
+        <hr><br>
+        <div class="form" id="bookdetails">
+            <center><b>Book Name :<input type="text" id="title" placeholder="Enter book name">
+            <br>Author :<input type="text" id="author" placeholder="Enter author name">
+            <br>Pages :<input type="number" id="pages" placeholder="Enter number of pages">
+            <br>Genre :<input type="text" id="genre" placeholder="Enter Genre">
+            <br>Quantity :<input type="number" id="quantity" placeholder="Enter Book Quantity">
+            <br>Price :<input type="number" id="price" placeholder="Enter Book price">
+            <br><br><button onclick="addBook()">Add Book</button></b></center>
+        </div>
+        <hr>
+        <div class="search">
+            <center><b><br>Search your books:<br><br>
+            <input type="text" id="searchTitle" placeholder="Search by Book name">
+            <button onclick="searchBooks()">Search</button></b></center>
+        </div>
+        <div id="bookList"></div>
+    </div>
+
+    <script>
+        let library = [];
+        const bookdetails = document.getElementById('bookdetails');
+        bookdetails.addEventListener('onclick',(e)=>{
+            e.preventDefault();
+        })
+        function addBook() {
+            
+            let title = document.getElementById('title').value;
+            let author = document.getElementById('author').value;
+            let pages = parseInt(document.getElementById('pages').value);
+            let genre = document.getElementById('genre').value;
+            let quantity = parseInt(document.getElementById('quantity').value);    
+            let price = parseInt(document.getElementById('price').value);
+
+            if (title && author && pages && genre && quantity) {
+                let book = {
+                    title: title,
+                    author: author,
+                    pages: pages,
+                    genre: genre,
+                    quantity : quantity,
+                    price: price
+                };
+                library.push(book);
+                displayBooks();
+            } else {
+                alert('Please fill all the book details!');
+            }
+            
+        }
+         
+        
+
+        function searchBooks() {
+            let searchTitle = document.getElementById('searchTitle').value.toLowerCase();
+            let searchResult = library.filter(book => book.title.toLowerCase().includes(searchTitle));
+           
+            displayBooks(searchResult);
+            
+            
+        }
+
+        function displayBooks(books = library) {
+            let bookList = document.getElementById('bookList');
+            bookList.innerHTML = '';
+
+            books.forEach(book => {
+                let bookDiv = document.createElement('div');
+                bookDiv.classList.add('book');
+                bookDiv.innerHTML = `
+                    <h3>Book Name: ${book.title}</h3>
+                    <ul>
+                    <li>Author: ${book.author}</li>
+                    <li>Pages: ${book.pages}</li>
+                    <li>Genre: ${book.genre}</li>
+                    <li>Quantity: ${book.quantity}</li>
+                    <li>Price: ${book.price}</li>
+                    </ul>
+                `;
+                bookList.appendChild(bookDiv);
+                
+            });
+
+        }
+
+        $("#form").text(e => {
+        e.preventDefault();
+  // Handle form
+        });
+    </script>
+</body>
+</html>
